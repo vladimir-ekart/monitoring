@@ -1,6 +1,30 @@
+version: '3.8'
+
 services:
+  monitoring-api:
+    container_name: 'monitoring-api'
+    build: ./monitoring-api
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://monitoring-database:3306/mydatabase
+      - MONITORING_COLLECTOR_URL=http://monitoring-collector:8081/monitoring-result
+    ports:
+      - "8080:8080"
+    depends_on:
+      - monitoring-collector
+
+  monitoring-collector:
+    container_name: 'monitoring-collector'
+    build: ./monitoring-collector
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://monitoring-database:3306/mydatabase
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+
   mysql:
-    container_name: 'guide-mysql'
+    container_name: 'monitoring-database'
     image: 'mysql:latest'
     environment:
       - 'MYSQL_DATABASE=mydatabase'
@@ -9,3 +33,9 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3306:3306'
+    healthcheck:
+      test: ["CMD", "mysql", "--host=localhost", "--user=root", "--password=verysecret", "--execute", "SHOW DATABASES;"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
