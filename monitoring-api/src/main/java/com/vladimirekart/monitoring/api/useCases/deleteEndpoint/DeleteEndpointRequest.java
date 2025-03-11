@@ -1,3 +1,8 @@
 package com.vladimirekart.monitoring.api.useCases.deleteEndpoint;
 
-public record DeleteEndpointRequest(Integer endpointId) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record DeleteEndpointRequest(
+  @NotBlank(message = "Endpoint ID is required")
+  Integer endpointId
+) {}

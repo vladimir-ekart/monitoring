@@ -22,30 +22,38 @@ public class MonitoredEndpoint {
   public MonitoredEndpoint() {}
   private MonitoredEndpoint(
     String name,
-    String url,
+    String path,
     String service,
     String owner,
     Date createdAt
   ) {
     this.name = name;
-    this.path = url;
+    this.path = path;
     this.service = service;
     this.createdAt = createdAt;
     this.owner = owner;
   }
 
-  public static MonitoredEndpoint fromNew(String name, String url, String service, String owner) {
-    return new MonitoredEndpoint(name, url, service, owner, new Date());
+  public static MonitoredEndpoint fromNew(String name, String path, String service, String owner) {
+    return new MonitoredEndpoint(name, path, service, owner, new Date());
   }
 
   public Boolean isOwner(User user) {
     return user.getEmail().equals(owner);
   }
 
-  public void updateBaseInfo(String name, String url, String service) {
-    this.name = name;
-    this.path = url;
-    this.service = service;
+  public void updateBaseInfo(String name, String path, String service) {
+    if (name != null) {
+      this.name = name;
+    }
+
+    if (path != null) {
+      this.path = path;
+    }
+
+    if (service != null) {
+      this.service = service;
+    }
   }
 
   public Integer getId() {

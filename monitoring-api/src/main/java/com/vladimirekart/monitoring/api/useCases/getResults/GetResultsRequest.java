@@ -1,3 +1,8 @@
 package com.vladimirekart.monitoring.api.useCases.getResults;
 
-public record GetResultsRequest(Integer endpointId) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record GetResultsRequest(
+  @NotBlank(message = "Endpoint ID is required")
+  Integer endpointId
+) {}

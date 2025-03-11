@@ -1,3 +1,12 @@
 package com.vladimirekart.monitoring.api.useCases.updateEndpoint;
 
-public record UpdateEndpointRequest(String name, String path, String service, Integer endpointId) {}
+import jakarta.validation.constraints.NotNull;
+
+public record UpdateEndpointRequest(
+  String name,
+  String path,
+  String service,
+
+  @NotNull(message = "Endpoint ID is required")
+  Integer endpointId
+) {}

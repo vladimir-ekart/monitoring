@@ -15,7 +15,7 @@ import com.vladimirekart.monitoring.api.useCases.getResults.GetResultsUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(path="/monitored-endpoint/{endpointId}/monitoring-result")
+@RequestMapping(path = "/monitored-endpoint/{endpointId}/monitoring-result")
 public class MonitoringResultController {
   @Autowired
   private GetResultsUseCase getResultsUseCase;

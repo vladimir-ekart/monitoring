@@ -1,7 +1,7 @@
 package com.vladimirekart.monitoring.api.controller.monitoredEndpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.vladimirekart.monitoring.api.entity.MonitoredEndpoint;
 import com.vladimirekart.monitoring.api.entity.User;
@@ -22,9 +23,10 @@ import com.vladimirekart.monitoring.api.useCases.updateEndpoint.UpdateEndpointRe
 import com.vladimirekart.monitoring.api.useCases.updateEndpoint.UpdateEndpointUseCase;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
-@Controller
-@RequestMapping(path="/monitored-endpoint")
+@RestController
+@RequestMapping(path = "/monitored-endpoint")
 public class MonitoredEndpointController {
   @Autowired 
   private AddEndpointUseCase addEndpointUseCase;
@@ -46,14 +48,18 @@ public class MonitoredEndpointController {
   }
 
   @PostMapping()
-  public @ResponseBody MonitoredEndpoint saveOne(HttpServletRequest request, @RequestBody AddEndpointRequest body) {
+  public @ResponseBody MonitoredEndpoint saveOne(HttpServletRequest request, @RequestBody @Valid AddEndpointRequest body) {
     User user = (User) request.getAttribute("user");
 
     return addEndpointUseCase.run(body, user);
   }
 
-  @PutMapping(path="/{endpointId}")
-  public @ResponseBody MonitoredEndpoint updateOne(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId, @RequestBody UpdateEndpointRequestBody body) {
+  @PutMapping(path = "/{endpointId}")
+  public @ResponseBody MonitoredEndpoint updateOne(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId, @RequestBody @Valid UpdateEndpointRequestBody body, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new Error("Invalid request");
+    }
+
     User user = (User) request.getAttribute("user");
     UpdateEndpointRequest input = new UpdateEndpointRequest(body.name(), body.path(), body.service(), endpointId);
 
@@ -64,7 +70,7 @@ public class MonitoredEndpointController {
     }
   }
 
-  @DeleteMapping(path="/{endpointId}")
+  @DeleteMapping(path = "/{endpointId}")
   public @ResponseBody MonitoredEndpoint deleteOne(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId) {
     User user = (User) request.getAttribute("user");
     DeleteEndpointRequest input = new DeleteEndpointRequest(endpointId);
