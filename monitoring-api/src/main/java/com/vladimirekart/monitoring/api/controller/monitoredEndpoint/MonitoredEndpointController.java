@@ -63,11 +63,7 @@ public class MonitoredEndpointController {
     User user = (User) request.getAttribute("user");
     UpdateEndpointRequest input = new UpdateEndpointRequest(body.name(), body.path(), body.service(), endpointId);
 
-    try {
-      return updateEndpointUseCase.run(input, user);
-    } catch (Exception e) {
-      throw new Error();
-    }
+    return updateEndpointUseCase.run(input, user);
   }
 
   @DeleteMapping(path = "/{endpointId}")
@@ -75,10 +71,6 @@ public class MonitoredEndpointController {
     User user = (User) request.getAttribute("user");
     DeleteEndpointRequest input = new DeleteEndpointRequest(endpointId);
 
-    try {
-      return deleteEndpointUseCase.run(input, user);
-    } catch (Exception e) {
-      throw new Error();
-    }
+    return deleteEndpointUseCase.run(input, user);
   }
 }

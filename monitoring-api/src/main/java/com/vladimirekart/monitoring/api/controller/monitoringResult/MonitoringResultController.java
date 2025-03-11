@@ -24,10 +24,6 @@ public class MonitoringResultController {
   public @ResponseBody Iterable<MonitoringResult> getAll(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId) {
     User user = (User) request.getAttribute("user");
 
-    try {
-      return getResultsUseCase.run(new GetResultsRequest(endpointId), user);
-    } catch (Exception e) {
-      throw new Error();
-    }
+    return getResultsUseCase.run(new GetResultsRequest(endpointId), user);
   }
 }

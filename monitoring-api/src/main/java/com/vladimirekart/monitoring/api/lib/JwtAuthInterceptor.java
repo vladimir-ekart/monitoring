@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.vladimirekart.monitoring.api.entity.User;
+import com.vladimirekart.monitoring.api.error.UnauthorizedException;
 import com.vladimirekart.monitoring.api.service.AuthorizerService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,10 +18,10 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
   private AuthorizerService authorizerService;
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
     String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
     
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) throw new Exception("Invalid or missing auth");
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Invalid or missing auth");
 
     String token = authHeader.substring(7);
 
