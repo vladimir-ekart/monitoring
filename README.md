@@ -9,7 +9,7 @@ It comprises two Spring Boot applications (api and collector) and a library (shi
 
 To start monitoring a certain Spring Boot application, the monitoring shipper package should be imported and initialized as a Filter.
 The shipper then intercepts every request/response from that API and sends a monitoring record over a local network to the collector instance (the collector is not exposed to the public internet).
-The collector then saves this record to the monitoring database (MySql), where it can be accessed via the monitoring api instance. The whole solution
+The collector then saves this record to the monitoring database (MySQL), where it can be accessed via the monitoring api instance. The whole solution
 is designed to handle monitoring data from multiple services placed into multiple networks.
 
 ## Monitoring API
@@ -44,7 +44,13 @@ Run docker compose
 docker-compose up -d --build
 ```
 
-three containers will be running: MySql database, monitoring-api, and monitoring-collector. The API will run on port 8080.
+Three containers will be running: MySQL database, monitoring-api, and monitoring-collector. The API will run on port 8080.
+
+To access the API with the pre-configured secret, use the following bearer token placed in the header:
+
+```bash
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJkZW1vQHVzZXIuamF2YSJ9.cfi30kJ_d0H0fDciJvLkmNgoUiZxmcuFNo7hZVMdxO0
+```
 
 ## Run tests
 
@@ -57,7 +63,7 @@ For tests to run, the database has to be running. Tests can be run
 ## Run local
 
 To run a single app, first make sure other services are running (docker-compose is recommended).
-If running via docker-compose, stop the container you wish to run locally and then run:
+If running via docker-compose, stop the container you wish to run locally and then run
 
 ```bash
 ./mvnw spring-boot:run -pl [app name]

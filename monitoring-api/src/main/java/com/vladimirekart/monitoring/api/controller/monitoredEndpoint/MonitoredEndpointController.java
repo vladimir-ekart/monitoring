@@ -55,11 +55,7 @@ public class MonitoredEndpointController {
   }
 
   @PutMapping(path = "/{endpointId}")
-  public @ResponseBody MonitoredEndpoint updateOne(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId, @RequestBody @Valid UpdateEndpointRequestBody body, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new Error("Invalid request");
-    }
-
+  public @ResponseBody MonitoredEndpoint updateOne(HttpServletRequest request, @PathVariable("endpointId") Integer endpointId, @RequestBody @Valid UpdateEndpointRequestBody body) {
     User user = (User) request.getAttribute("user");
     UpdateEndpointRequest input = new UpdateEndpointRequest(body.name(), body.path(), body.service(), endpointId);
 
