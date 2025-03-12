@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthInterceptor implements HandlerInterceptor {
   @Autowired
-  private AuthorizerService authorizerService;
+  protected AuthorizerService authorizerService;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

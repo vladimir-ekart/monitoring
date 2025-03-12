@@ -21,12 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class ResponseFilter implements Filter {
   @Value("${monitoring.service.name}")
-  private String service;
+  protected String service;
 
   @Value("${monitoring.collector.url}")
-  private String collectorUrl;
+  protected String collectorUrl;
 
-  private final RestTemplate restTemplate = new RestTemplate();
+  protected RestTemplate restTemplate = new RestTemplate();
 
   @Override
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -42,7 +42,8 @@ public class ResponseFilter implements Filter {
       String path = httpRequest.getRequestURI();
       String method = httpRequest.getMethod();
 
-      MonitoringResult monitoringResult = new MonitoringResult(service, path, method, new String(body), responseCacheWrapperObject.getStatus());
+      MonitoringResult monitoringResult = new MonitoringResult(service, path, method, new String(body),
+          responseCacheWrapperObject.getStatus());
 
       sendMonitoringResult(monitoringResult);
     }
@@ -62,4 +63,3 @@ public class ResponseFilter implements Filter {
     }
   }
 }
-

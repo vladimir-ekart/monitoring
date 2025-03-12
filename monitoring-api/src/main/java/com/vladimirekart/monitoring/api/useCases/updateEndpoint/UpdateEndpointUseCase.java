@@ -17,9 +17,11 @@ public class UpdateEndpointUseCase implements UseCase<UpdateEndpointRequest, Mon
 
   @Override
   public MonitoredEndpoint run(UpdateEndpointRequest request, User user) {
-    MonitoredEndpoint existingEndpoint = monitoredEndpointRepository.findById(request.endpointId()).orElseThrow(() -> new NotFoundException("Endpoint not found"));
+    MonitoredEndpoint existingEndpoint = monitoredEndpointRepository.findById(request.endpointId())
+        .orElseThrow(() -> new NotFoundException("Endpoint not found"));
 
-    if (!existingEndpoint.isOwner(user)) throw new ForbiddenException("User is not owner of this endpoint");
+    if (!existingEndpoint.isOwner(user))
+      throw new ForbiddenException("User is not owner of this endpoint");
 
     existingEndpoint.updateBaseInfo(request.name(), request.path(), request.service());
 

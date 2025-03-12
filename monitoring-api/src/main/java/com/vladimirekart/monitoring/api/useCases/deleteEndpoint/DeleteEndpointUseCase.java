@@ -17,9 +17,11 @@ public class DeleteEndpointUseCase implements UseCase<DeleteEndpointRequest, Mon
 
   @Override
   public MonitoredEndpoint run(DeleteEndpointRequest request, User user) {
-    MonitoredEndpoint existingEndpoint = monitoredEndpointRepository.findById(request.endpointId()).orElseThrow(() -> new NotFoundException("Endpoint not found"));
+    MonitoredEndpoint existingEndpoint = monitoredEndpointRepository.findById(request.endpointId())
+        .orElseThrow(() -> new NotFoundException("Endpoint not found"));
 
-    if (!existingEndpoint.isOwner(user)) throw new ForbiddenException("User is not owner of this endpoint");
+    if (!existingEndpoint.isOwner(user))
+      throw new ForbiddenException("User is not owner of this endpoint");
 
     monitoredEndpointRepository.delete(existingEndpoint);
 

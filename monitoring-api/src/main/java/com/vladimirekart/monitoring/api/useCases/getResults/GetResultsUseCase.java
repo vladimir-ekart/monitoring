@@ -22,10 +22,13 @@ public class GetResultsUseCase implements UseCase<GetResultsRequest, Iterable<Mo
 
   @Override
   public Iterable<MonitoringResult> run(GetResultsRequest request, User user) {
-    MonitoredEndpoint monitoredEndpoint = monitoredEndpointRepository.findById(request.endpointId()).orElseThrow(() -> new NotFoundException("Endpoint not found"));
+    MonitoredEndpoint monitoredEndpoint = monitoredEndpointRepository.findById(request.endpointId())
+        .orElseThrow(() -> new NotFoundException("Endpoint not found"));
 
-    if (!monitoredEndpoint.isOwner(user)) throw new ForbiddenException("User is not owner of this endpoint");
+    if (!monitoredEndpoint.isOwner(user))
+      throw new ForbiddenException("User is not owner of this endpoint");
 
-    return monitoringResultRepository.findTop10ByServiceAndPathOrderByCreatedAtDesc(monitoredEndpoint.getService(), monitoredEndpoint.getPath());
+    return monitoringResultRepository.findTop10ByServiceAndPathOrderByCreatedAtDesc(monitoredEndpoint.getService(),
+        monitoredEndpoint.getPath());
   }
 }

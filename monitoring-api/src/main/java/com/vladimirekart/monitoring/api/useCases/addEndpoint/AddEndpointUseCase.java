@@ -15,7 +15,8 @@ public class AddEndpointUseCase implements UseCase<AddEndpointRequest, Monitored
 
   @Override
   public MonitoredEndpoint run(AddEndpointRequest request, User user) {
-    MonitoredEndpoint endpoint = MonitoredEndpoint.fromNew(request.name(), request.path(), request.service(), user.getEmail());
+    MonitoredEndpoint endpoint = MonitoredEndpoint.fromNew(request.name(), request.path(), request.service(),
+        user.getEmail());
     monitoredEndpointRepository.save(endpoint);
 
     return endpoint;

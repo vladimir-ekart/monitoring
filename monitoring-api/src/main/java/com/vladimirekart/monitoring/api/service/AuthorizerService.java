@@ -18,7 +18,7 @@ import jakarta.annotation.PostConstruct;
 @Service
 public class AuthorizerService {
     @Value("${jwt.secret}")
-    private String jwtSecret;
+    protected String jwtSecret;
     private SecretKey key;
 
     @PostConstruct

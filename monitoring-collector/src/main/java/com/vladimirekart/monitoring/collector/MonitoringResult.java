@@ -15,7 +15,7 @@ public class MonitoringResult {
 
   private String service;
   private String path;
-  
+
   private String payload;
 
   private String method;
@@ -23,6 +23,22 @@ public class MonitoringResult {
   private Integer statusCode;
 
   public MonitoringResult() {}
+
+  public MonitoringResult(
+      String service,
+      String path,
+      String payload,
+      String method,
+      Date createdAt,
+      Integer statusCode
+  ) {
+    this.service = service;
+    this.path = path;
+    this.payload = payload;
+    this.method = method;
+    this.createdAt = createdAt;
+    this.statusCode = statusCode;
+  }
 
   public String getService() {
     return service;
@@ -46,5 +62,9 @@ public class MonitoringResult {
 
   public Integer getStatusCode() {
     return statusCode;
+  }
+
+  public Integer getId() {
+    return id;
   }
 }
